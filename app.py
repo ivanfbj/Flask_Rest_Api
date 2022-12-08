@@ -21,6 +21,11 @@ def getProducts():
     return jsonify({"products": products,
                     "message": "Product's List"})
 
+@app.route('/products/<string:product_name>')
+def getProduct(product_name):
+    print(product_name)
+    return 'received'
+    
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
