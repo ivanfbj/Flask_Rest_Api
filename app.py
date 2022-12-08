@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from products import products
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ app = Flask(__name__)
 # De esta manera se puede testear que el servidor este respondiento con algo al navegador.
 @app.route('/ping')
 def pingt():
-    return 'Pong!'
+    return jsonify({"message":"Servidor activo, se le retorna al navegador un mensaje en formato JSON."})
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
