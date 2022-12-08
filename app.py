@@ -21,10 +21,14 @@ def getProducts():
     return jsonify({"products": products,
                     "message": "Product's List"})
 
+# Dentro de esta ruta se recibe el nombre del producto para poder buscarlo y retornar la información.
+# En caso de no encontrar el registro retorna el mensaje de producto no encontrado.
 @app.route('/products/<string:product_name>')
 def getProduct(product_name):
-    print(product_name)
-    return 'received'
+    productsFound = [product for product in products if product['name'] == product_name]
+    if (len(productsFound) > 0):
+        return jsonify({"product": productsFound[0]})
+    return jsonify({"message": "Product not found"})
     
 
 if __name__ == '__main__':
