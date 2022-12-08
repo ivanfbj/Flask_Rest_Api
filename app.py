@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+# jsonify: me permite retornar un diccionario como un objeto JSON.
+# request: lo que hace es proporcionarme los datos que me están enviando a traves de peticiones http
+from flask import Flask, jsonify, request
 from products import products
 
 app = Flask(__name__)
@@ -23,12 +25,18 @@ def getProducts():
 
 # Dentro de esta ruta se recibe el nombre del producto para poder buscarlo y retornar la información.
 # En caso de no encontrar el registro retorna el mensaje de producto no encontrado.
-@app.route('/products/<string:product_name>')
+@app.route('/products/<string:product_name>', methods=['GET'])
 def getProduct(product_name):
     productsFound = [product for product in products if product['name'] == product_name]
     if (len(productsFound) > 0):
         return jsonify({"product": productsFound[0]})
     return jsonify({"message": "Product not found"})
+
+# Ruta para crear nuevos productos, se utiliza el tipo de petición POST.
+@app.route('/products', methods=['POST'])
+def addProduct():
+    print(request.json)
+    return 'Received'
     
 
 if __name__ == '__main__':
