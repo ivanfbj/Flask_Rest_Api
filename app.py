@@ -40,7 +40,7 @@ def getProduct(product_name):
     return jsonify({"message": "Product not found"})
 
 # Ruta para crear nuevos productos, se utiliza el tipo de petición POST.
-# Esta funcionalidad deja la nueva información en memoria ya que no se están
+# Esta funcionalidad deja la nueva información en memoria ya que no se está
 # modificando el archivo directamente.
 
 
@@ -54,6 +54,23 @@ def addProduct():
     products.append(new_product)
     return jsonify({"message": "Product Added Succesfully",
                     "products": products})
+
+# Ruta para actualizar los productos, se utiliza el tipo de petición PUT.
+# Esta funcionalidad deja la nueva información actualizada en memoria ya que no se está
+# modificando el archivo directamente.
+
+
+@app.route('/products/<string:product_name>', methods=['PUT'])
+def editProduct(product_name):
+    productFound = [
+        product for product in products if product['name'] == product_name]
+    if len(productFound) > 0:
+        productFound[0]['name'] = request.json['name']
+        productFound[0]['price'] = request.json['price']
+        productFound[0]['quantity'] = request.json['quantity']
+        return jsonify({"message": "Product Updated",
+                        "product": productFound[0]
+                        })
 
 
 if __name__ == '__main__':
