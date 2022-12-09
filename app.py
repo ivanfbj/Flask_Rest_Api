@@ -71,6 +71,22 @@ def editProduct(product_name):
         return jsonify({"message": "Product Updated",
                         "product": productFound[0]
                         })
+    return jsonify({"message": "Product Not Found"})
+
+# Ruta para eliminar los productos, se utiliza el tipo de petición DELETE.
+# Esta funcionalidad deja la nueva información eliminada en memoria ya que no se está
+# modificando el archivo directamente.
+
+
+@app.route('/products/<string:product_name>', methods=['DELETE'])
+def deleteProduct(product_name):
+    productFound = [
+        product for product in products if product['name'] == product_name]
+    if len(productFound) > 0:
+        products.remove(productFound[0])
+        return jsonify({"message": "Product Deleted",
+                        "products": products})
+    return jsonify({"message": "Product Not Found"})
 
 
 if __name__ == '__main__':
